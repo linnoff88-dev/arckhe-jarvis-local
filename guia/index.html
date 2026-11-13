@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jarvis Local — seu assistente de voz 100% na sua GPU</title>
 <meta name="description" content="Kit aberto para montar um assistente de voz que roda inteiro no seu computador: Ollama, voz clonada e Whisper. Precisa de GPU. Instalador e 8 prompts.">
-<link rel="alternate" hreflang="pt-BR" href="https://~~ARCKHÉTDS~~.github.io/jarvis-local/guia/">
-<link rel="alternate" hreflang="en" href="https://~~ARCKHÉTDS~~.github.io/jarvis-local/guia/en/">
-<link rel="alternate" hreflang="es" href="https://~~ARCKHÉTDS~~.github.io/jarvis-local/guia/es/">
+<link rel="alternate" hreflang="pt-BR" href="https://inematds.github.io/jarvis-local/guia/">
+<link rel="alternate" hreflang="en" href="https://inematds.github.io/jarvis-local/guia/en/">
+<link rel="alternate" hreflang="es" href="https://inematds.github.io/jarvis-local/guia/es/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -133,7 +133,7 @@
     <a class="sec" href="#prompts">Prompts</a>
     <span class="lang"><a class="on" href="./">PT</a><a href="en/">EN</a><a href="es/">ES</a></span>
     <button class="tgl" id="themeToggle" aria-label="Alternar tema" title="Alternar tema">🌙</button>
-    <a class="btn" href="https://github.com/~~ARCKHÉTDS~~/jarvis-local" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn" href="https://github.com/inematds/jarvis-local" target="_blank" rel="noopener">GitHub</a>
   </div>
 </div></nav>
 
@@ -146,7 +146,7 @@
       <p class="lead">Cérebro, voz clonada e ouvidos rodando no seu computador. Sem mensalidade, sem conta de API, e nada sai da sua casa.</p>
       <div class="cta">
         <a class="btn" href="#guia">Começar o guia</a>
-        <a class="btn ghost" href="https://github.com/~~ARCKHÉTDS~~/jarvis-local" target="_blank" rel="noopener">Ver no GitHub</a>
+        <a class="btn ghost" href="https://github.com/inematds/jarvis-local" target="_blank" rel="noopener">Ver no GitHub</a>
       </div>
     </div>
     <figure><img src="assets/banner.jpg" alt="Banner Jarvis 100% Local: humanoide, placa de vídeo dourada e galáxia de notas"></figure>
@@ -197,7 +197,7 @@
     <div class="bar"><span class="m">96–128 GB</span><span class="t"><i style="width:80%"></i></span><code>gpt-oss:120b · 65 GB</code></div>
     <div class="bar"><span class="m">128 GB+</span><span class="t"><i style="width:100%"></i></span><code>qwen3.5:122b-a10b · 81 GB · à mão</code></div>
   </div>
-  <p class="mut" style="margin-top:14px;font-size:.9rem">Também cabem: <code>gpt-oss:20b</code> (14 GB, rápido), <code>gemma4:26b-a4b</code> (16–19 GB), <code>llama4:scout</code> (67 GB). Tags terminadas em <code>-cloud</code> rodam na nuvem do Ollama: o instalador recusa. Tabela completa em <a href="https://github.com/~~ARCKHÉTDS~~/jarvis-local/blob/main/MODELOS.md" target="_blank" rel="noopener">MODELOS.md</a>.</p>
+  <p class="mut" style="margin-top:14px;font-size:.9rem">Também cabem: <code>gpt-oss:20b</code> (14 GB, rápido), <code>gemma4:26b-a4b</code> (16–19 GB), <code>llama4:scout</code> (67 GB). Tags terminadas em <code>-cloud</code> rodam na nuvem do Ollama: o instalador recusa. Tabela completa em <a href="https://github.com/inematds/jarvis-local/blob/main/MODELOS.md" target="_blank" rel="noopener">MODELOS.md</a>.</p>
 </div></section>
 
 <section id="fluxo"><div class="wrap">
@@ -248,7 +248,7 @@
   <div class="step"><div class="b">1</div><div>
     <h3>Baixe o kit</h3>
     <p>Clone o repositório no computador onde o assistente vai morar.</p>
-<pre><span class="k">git clone https://github.com/~~ARCKHÉTDS~~/jarvis-local.git</span>
+<pre><span class="k">git clone https://github.com/inematds/jarvis-local.git</span>
 <span class="k">cd jarvis-local</span></pre>
   </div></div>
 
@@ -308,14 +308,14 @@
   <h2>O que cada prompt constrói</h2>
   <p class="sub">Cada prompt é um pedido completo: o que construir, as regras que tem de respeitar e como provar que funciona. Troque só o que está entre colchetes.</p>
   <div class="grid g4">
-    <div class="card pcard"><span class="num">01</span><h3>Galáxia e cérebro</h3><p>Galáxia 3D das suas notas + perguntas respondidas pelo modelo local.</p><a href="https://github.com/~~ARCKHÉTDS~~/jarvis-local/blob/main/prompts/01-galaxia-e-cerebro.md" target="_blank" rel="noopener">abrir →</a></div>
-    <div class="card pcard"><span class="num">02</span><h3>Voz clonada</h3><p>Cada resposta falada na sua voz, em blocos de frases inteiras.</p><a href="https://github.com/~~ARCKHÉTDS~~/jarvis-local/blob/main/prompts/02-voz-clonada.md" target="_blank" rel="noopener">abrir →</a></div>
-    <div class="card pcard"><span class="num">03</span><h3>Ouvidos locais</h3><p>"Jarvis" para chamar, "para" para interromper, áudio que não sai da sala.</p><a href="https://github.com/~~ARCKHÉTDS~~/jarvis-local/blob/main/prompts/03-ouvidos-locais.md" target="_blank" rel="noopener">abrir →</a></div>
-    <div class="card pcard"><span class="num">04</span><h3>Personalidade enxuta</h3><p>Um personagem que cabe num modelo pequeno, com prompt curto e rápido.</p><a href="https://github.com/~~ARCKHÉTDS~~/jarvis-local/blob/main/prompts/04-personalidade-enxuta.md" target="_blank" rel="noopener">abrir →</a></div>
-    <div class="card pcard"><span class="num">05</span><h3>Memória que cresce</h3><p>"Anota que…" vira nota nova na galáxia, ao vivo.</p><a href="https://github.com/~~ARCKHÉTDS~~/jarvis-local/blob/main/prompts/05-memoria-que-cresce.md" target="_blank" rel="noopener">abrir →</a></div>
-    <div class="card pcard"><span class="num">06</span><h3>Trocar de cérebro</h3><p>Local, grande ou nuvem (opcional), por voz, com selo na tela.</p><a href="https://github.com/~~ARCKHÉTDS~~/jarvis-local/blob/main/prompts/06-troca-de-cerebro.md" target="_blank" rel="noopener">abrir →</a></div>
-    <div class="card pcard"><span class="num">07</span><h3>O verificador</h3><p>Testa tudo de verdade e mede o tempo da sua máquina.</p><a href="https://github.com/~~ARCKHÉTDS~~/jarvis-local/blob/main/prompts/07-verificador-de-latencia.md" target="_blank" rel="noopener">abrir →</a></div>
-    <div class="card pcard"><span class="num">08</span><h3>Teste sem internet</h3><p>Prova que nada sai da máquina, com o Wi-Fi desligado.</p><a href="https://github.com/~~ARCKHÉTDS~~/jarvis-local/blob/main/prompts/08-teste-sem-internet.md" target="_blank" rel="noopener">abrir →</a></div>
+    <div class="card pcard"><span class="num">01</span><h3>Galáxia e cérebro</h3><p>Galáxia 3D das suas notas + perguntas respondidas pelo modelo local.</p><a href="https://github.com/inematds/jarvis-local/blob/main/prompts/01-galaxia-e-cerebro.md" target="_blank" rel="noopener">abrir →</a></div>
+    <div class="card pcard"><span class="num">02</span><h3>Voz clonada</h3><p>Cada resposta falada na sua voz, em blocos de frases inteiras.</p><a href="https://github.com/inematds/jarvis-local/blob/main/prompts/02-voz-clonada.md" target="_blank" rel="noopener">abrir →</a></div>
+    <div class="card pcard"><span class="num">03</span><h3>Ouvidos locais</h3><p>"Jarvis" para chamar, "para" para interromper, áudio que não sai da sala.</p><a href="https://github.com/inematds/jarvis-local/blob/main/prompts/03-ouvidos-locais.md" target="_blank" rel="noopener">abrir →</a></div>
+    <div class="card pcard"><span class="num">04</span><h3>Personalidade enxuta</h3><p>Um personagem que cabe num modelo pequeno, com prompt curto e rápido.</p><a href="https://github.com/inematds/jarvis-local/blob/main/prompts/04-personalidade-enxuta.md" target="_blank" rel="noopener">abrir →</a></div>
+    <div class="card pcard"><span class="num">05</span><h3>Memória que cresce</h3><p>"Anota que…" vira nota nova na galáxia, ao vivo.</p><a href="https://github.com/inematds/jarvis-local/blob/main/prompts/05-memoria-que-cresce.md" target="_blank" rel="noopener">abrir →</a></div>
+    <div class="card pcard"><span class="num">06</span><h3>Trocar de cérebro</h3><p>Local, grande ou nuvem (opcional), por voz, com selo na tela.</p><a href="https://github.com/inematds/jarvis-local/blob/main/prompts/06-troca-de-cerebro.md" target="_blank" rel="noopener">abrir →</a></div>
+    <div class="card pcard"><span class="num">07</span><h3>O verificador</h3><p>Testa tudo de verdade e mede o tempo da sua máquina.</p><a href="https://github.com/inematds/jarvis-local/blob/main/prompts/07-verificador-de-latencia.md" target="_blank" rel="noopener">abrir →</a></div>
+    <div class="card pcard"><span class="num">08</span><h3>Teste sem internet</h3><p>Prova que nada sai da máquina, com o Wi-Fi desligado.</p><a href="https://github.com/inematds/jarvis-local/blob/main/prompts/08-teste-sem-internet.md" target="_blank" rel="noopener">abrir →</a></div>
   </div>
 </div></section>
 
@@ -343,7 +343,7 @@
   <div class="wrap">
     <div class="pill">Ollama</div><div class="pill">VoiceStudio · VoxCPM2</div><div class="pill">Whisper</div><div class="pill">3d-force-graph</div>
     <p style="margin-top:18px">Jarvis Local · kit aberto, licença MIT ·
-      <a href="https://github.com/~~ARCKHÉTDS~~/jarvis-local">~~ARCKHÉTDS~~/jarvis-local</a> ·
+      <a href="https://github.com/inematds/jarvis-local">inematds/jarvis-local</a> ·
       <a href="https://linnoff88-dev.github.io/arckhe-ai">ARCKHÉ.CLUB</a></p>
   </div>
 </footer>

@@ -1,6 +1,6 @@
 # Jarvis Local — seu assistente de voz 100% na sua máquina
 
-[![Jarvis Local](guia/assets/banner.jpg)](https://~~ARCKHÉTDS~~.github.io/jarvis-local/guia/)
+[![Jarvis Local](guia/assets/banner.jpg)](https://inematds.github.io/jarvis-local/guia/)
 
 **🇧🇷 [Português](README.md) · 🇺🇸 [English](README.en.md) · 🇪🇸 [Español](README.es.md)**
 
@@ -10,7 +10,7 @@ O Jarvis Local é um kit aberto do ARCKHÉ para montar um assistente pessoal que
 
 ## 📖 Guia de uso
 
-Guia completo (landing + passo a passo): **https://~~ARCKHÉTDS~~.github.io/jarvis-local/guia/**
+Guia completo (landing + passo a passo): **https://inematds.github.io/jarvis-local/guia/**
 
 ## ⚠️ Roda em GPU — leia antes
 
@@ -41,7 +41,7 @@ Tabela completa (gpt-oss:20b, gemma4:26b-a4b, llama4:scout, qwen3.5:122b-a10b…
 | # | Passo | Comando / o que acontece | Quem |
 |---|---|---|---|
 | 0 | Pré-requisitos | Python 3.10+ e curl; no Ubuntu/Debian `sudo apt install -y python3-venv curl` (o instalador confere e avisa) | 🙋 |
-| 1 | Baixar o kit | `git clone https://github.com/~~ARCKHÉTDS~~/jarvis-local.git && cd jarvis-local` | ⚙️ |
+| 1 | Baixar o kit | `git clone https://github.com/inematds/jarvis-local.git && cd jarvis-local` | ⚙️ |
 | 2 | Simular a instalação | `bash instalar/instalar.sh --simular` (Mac/Linux) ou `powershell -ExecutionPolicy Bypass -File instalar\instalar.ps1 -Simular` (Windows): mostra a GPU, a memória e o modelo escolhido, sem instalar nada | ⚙️ |
 | 3 | Instalar os 3 motores | o mesmo comando sem `--simular`: Ollama + modelo, Whisper (faster-whisper ou mlx-whisper; na NVIDIA, com cuBLAS/cuDNN) e VoiceStudio; grava `~/.jarvis-local/minha-maquina.json` com a tag do cérebro e o Python do kit | ⚙️ |
 | 4 | Criar a voz | no VoiceStudio: instale o motor **VoxCPM2** (fala português, Apache-2.0) e clone a SUA voz num perfil chamado **Jarvis** (10–20 s, sem eco) | 🙋 |
