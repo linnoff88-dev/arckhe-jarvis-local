@@ -1,0 +1,11 @@
+{
+  "cerebro_inicial": "local",
+  "cerebros": {
+    "local":  { "base_url": "http://localhost:11434/v1", "modelo": "qwen3.5:9b",  "api_key": "ollama", "extra_body": { "reasoning_effort": "none" } },
+    "grande": { "base_url": "http://localhost:11434/v1", "modelo": "qwen3.8:27b", "api_key": "ollama", "extra_body": { "reasoning_effort": "none" } },
+    "nuvem":  { "tipo": "cli", "comando": "claude -p", "obs": "opcional; use o CLI que você já assina, ou troque por base_url + a SUA chave" }
+  },
+  "voz": { "url": "http://127.0.0.1:3900", "motor": "voxcpm2", "modelo": "openbmb/VoxCPM2", "perfil": "Jarvis", "idioma": "pt" },
+  "audicao": { "modelo": "large-v3-turbo", "modelo_ativacao": "small", "idioma": "pt" },
+  "notas": "/caminho/para/suas/notas"
+}
