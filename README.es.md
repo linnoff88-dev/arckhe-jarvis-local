@@ -90,4 +90,4 @@ MIT: consulta [LICENSE](LICENSE). Los modelos y VoiceStudio tienen sus propias l
 
 ---
 
-Hecho por **[ARCKHÉ.CLUB](https://linnoff88-dev.github.io/arckhe-ai)**.
+Hecho por **[ARCKHÉ.AI](https://linnoff88-dev.github.io/arckhe-ai)**.
