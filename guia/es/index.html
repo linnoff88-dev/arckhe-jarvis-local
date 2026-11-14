@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jarvis Local — tu asistente de voz 100% en tu GPU</title>
+<meta name="description" content="Kit abierto para crear un asistente de voz que funciona por completo en tu computadora: Ollama, voz clonada y Whisper. Necesitas una GPU. Instalador y 8 prompts.">
+<link rel="alternate" hreflang="pt-BR" href="https://inematds.github.io/jarvis-local/guia/">
+<link rel="alternate" hreflang="en" href="https://inematds.github.io/jarvis-local/guia/en/">
+<link rel="alternate" hreflang="es" href="https://inematds.github.io/jarvis-local/guia/es/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0c10; --bg2:#14141b; --card:#16161e; --line:#272730;
+    --txt:#e9e9ee; --mut:#9a9aa6; --amb:#E2A23B; --amb2:#f0c070; --sky:#38bdf8; --pro:#cbd5e1;
+    color-scheme:dark;
+  }
+  body.light{
+    --bg:#f6f7f9; --bg2:#eceef2; --card:#ffffff; --line:#e1e3ea;
+    --txt:#1a1a22; --mut:#5b5b68; --amb:#b9791d; --amb2:#a16207; --sky:#0369a1; --pro:#b45309;
+    color-scheme:light;
+  }
+  body.light .hero .glow{opacity:.5}
+  body.light pre{background:#0e0e14;color:#d6d6e0}
+  body.light pre .c{color:#8a8a98}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.65 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Sora,sans-serif;line-height:1.15;margin:0}
+  a{color:var(--amb);text-decoration:none}
+  code,pre{font-family:"JetBrains Mono",monospace}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 22px}
+  .mut{color:var(--mut)} .amb{color:var(--amb)}
+  .chip{display:inline-block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--amb);font-weight:600;font-family:Sora}
+  nav{position:sticky;top:0;z-index:30;backdrop-filter:blur(12px);background:rgba(12,12,16,.78);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;gap:22px;height:60px}
+  nav .brand{display:flex;align-items:center;gap:8px;font-family:Sora;font-weight:800;letter-spacing:-.02em;color:var(--amb)}
+  nav .brand .emoji{font-size:1.25rem}
+  nav .sep{color:var(--mut);opacity:.45}
+  nav .inema{color:var(--sky);font-weight:600;font-size:.88rem;font-family:Sora}
+  nav .inema:hover{filter:brightness(1.15)}
+  nav .pro{color:var(--pro);font-weight:600;font-size:.88rem;font-family:Sora}
+  nav .pro:hover{filter:brightness(1.15)}
+  nav .clubpro{display:inline-flex;align-items:center;gap:6px}
+  nav .links{margin-left:auto;display:flex;align-items:center;gap:20px;font-size:.92rem}
+  nav .links a.sec{color:var(--mut)} nav .links a.sec:hover{color:var(--txt)}
+  .lang{display:inline-flex;gap:2px;font-family:Sora;font-size:.78rem}
+  .lang a{color:var(--mut);padding:.2em .45em;border-radius:6px} .lang a.on{color:var(--amb);background:rgba(226,162,59,.12)}
+  .tgl{background:var(--bg2);border:1px solid var(--line);color:var(--txt);width:38px;height:38px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem}
+  .tgl:hover{border-color:var(--amb)}
+  .btn{display:inline-block;background:var(--amb);color:#1a1206;font-weight:600;padding:.6em 1.05em;border-radius:10px;font-family:Sora}
+  .btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+  @media(max-width:760px){nav .links a.sec{display:none}}
+  @media(max-width:520px){nav .wrap{gap:8px;padding:8px 14px;height:auto;flex-wrap:wrap} nav .links{gap:8px;margin-left:0;width:100%;justify-content:space-between} nav .btn{padding:.45em .7em;font-size:.82rem} .tgl{width:34px;height:34px}}
+  .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+  .hero .glow{position:absolute;inset:-40% -20% auto auto;width:70%;height:600px;background:radial-gradient(closest-side,rgba(226,162,59,.22),transparent 70%);pointer-events:none}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:74px 22px}
+  .hero h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;letter-spacing:-.025em}
+  .hero p.lead{font-size:1.18rem;color:var(--mut);margin:1.1em 0 1.6em;max-width:34ch}
+  .hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .hero figure{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px -30px #000}
+  .hero figure img{width:100%;height:auto;display:block}
+  .resumo{padding:38px 0 34px;border-bottom:1px solid var(--line)}
+  .resumo p{font-size:1.12rem;line-height:1.7;max-width:74ch;margin:.55em 0 0}
+  @media(max-width:780px){.hero .wrap{grid-template-columns:1fr;padding:48px 22px}}
+  section{padding:62px 0;border-bottom:1px solid var(--line)}
+  section h2{font-size:clamp(1.5rem,3.4vw,2.1rem);font-weight:800;letter-spacing:-.02em}
+  section .sub{color:var(--mut);margin:.6em 0 2em;max-width:62ch}
+  .grid{display:grid;gap:16px}
+  .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:820px){.g3,.g4{grid-template-columns:1fr 1fr}}
+  @media(max-width:540px){.g2,.g3,.g4{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .card h3{font-size:1.05rem;margin-bottom:.4em}
+  .card p{color:var(--mut);font-size:.92rem;margin:0}
+  .num{display:inline-flex;width:30px;height:30px;align-items:center;justify-content:center;border-radius:8px;background:rgba(226,162,59,.14);color:var(--amb);font-family:Sora;font-weight:800;font-size:.9rem;margin-bottom:.7em}
+  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+  .flow span{background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:.45em .9em;font-size:.85rem;font-family:Sora;font-weight:600}
+  .flow .arr{color:var(--amb);border:none;background:none;padding:0 .1em}
+  pre{background:#0a0a0e;border:1px solid var(--line);border-radius:12px;padding:16px 18px;overflow:auto;font-size:.86rem;line-height:1.6;color:#d6d6e0}
+  pre .c{color:#6f6f7c} pre .k{color:var(--amb2)} pre .s{color:#9ece6a}
+  .step{display:grid;grid-template-columns:46px minmax(0,1fr);gap:16px;margin-bottom:26px}
+  .step>div,.card{min-width:0}
+  p code,li code,td code{overflow-wrap:anywhere}
+  .step .b{width:46px;height:46px;border-radius:12px;background:var(--amb);color:#1a1206;font-family:Sora;font-weight:800;font-size:1.25rem;display:flex;align-items:center;justify-content:center}
+  .step h3{font-size:1.12rem;margin-bottom:.3em}
+  .step p{color:var(--mut);margin:.2em 0 .7em}
+  .ex{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:680px){.ex{grid-template-columns:1fr}}
+  .ex figure{margin:0;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+  .ex figure img{width:100%;height:auto;display:block}
+  .ex figcaption{padding:12px 14px;font-size:.88rem;color:var(--mut);background:var(--card)}
+  .phase{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+  .phase:last-child{border:none}
+  .phase .tag{flex:0 0 92px;font-family:Sora;font-weight:800;color:var(--amb)}
+  .phase .d strong{display:block;margin-bottom:.2em}
+  .phase .d span{color:var(--mut);font-size:.92rem}
+  footer{padding:46px 0;text-align:center;color:var(--mut);font-size:.9rem}
+  .pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:.3em .8em;font-size:.78rem;color:var(--mut);margin:0 4px}
+  .bars{display:grid;gap:10px;margin-top:8px}
+  .bar{display:grid;grid-template-columns:110px minmax(0,1fr) 220px;gap:12px;align-items:center;font-size:.9rem}
+  .bar .m{font-family:Sora;font-weight:800;color:var(--txt)}
+  .bar .t{height:26px;background:var(--bg2);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .bar .t i{display:block;height:100%;background:linear-gradient(90deg,var(--amb),var(--amb2));border-radius:7px}
+  .bar code{color:var(--amb2);font-size:.82rem}
+  @media(max-width:620px){.bar{grid-template-columns:70px minmax(0,1fr);}.bar code{grid-column:2}}
+  table.t2{width:100%;border-collapse:collapse;font-size:.92rem}
+  table.t2 th,table.t2 td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.t2 th{font-family:Sora;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+  .ok{color:#2bff88} .no{color:#ff5a4f}
+  .warn{border:1px solid rgba(255,90,79,.45);background:rgba(255,90,79,.07);border-radius:14px;padding:16px 18px;margin-top:18px}
+  .wide{margin:0 0 26px;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px -30px #000}
+  .wide img{width:100%;display:block}
+  .pcard a{font-family:Sora;font-weight:600}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="brand" href="#top"><span class="emoji">🎙️</span> Jarvis Local</a>
+  <span class="sep">|</span>
+  <span class="clubpro">
+    <a class="inema" href="https://inema.club" target="_blank" rel="noopener">INEMA.CLUB</a>
+    <span class="sep">-</span>
+    <a class="pro" href="https://inema.pro" target="_blank" rel="noopener">PRO</a>
+  </span>
+  <div class="links">
+    <a class="sec" href="#gpu">GPU</a>
+    <a class="sec" href="#fluxo">Cómo funciona</a>
+    <a class="sec" href="#guia">Guía de uso</a>
+    <a class="sec" href="#prompts">Prompts</a>
+    <span class="lang"><a href="../">PT</a><a href="../en/">EN</a><a class="on" href="./">ES</a></span>
+    <button class="tgl" id="themeToggle" aria-label="Cambiar tema" title="Cambiar tema">🌙</button>
+    <a class="btn" href="https://github.com/inematds/jarvis-local" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</div></nav>
+
+<header class="hero" id="top">
+  <div class="glow"></div>
+  <div class="wrap">
+    <div>
+      <span class="chip">Asistente de voz · funciona en tu GPU</span>
+      <h1>Tu Jarvis, <span class="amb">100% local</span>.</h1>
+      <p class="lead">Cerebro, voz clonada y oídos funcionando en tu computadora. Sin mensualidad, sin cuenta de API y sin que nada salga de tu casa.</p>
+      <div class="cta">
+        <a class="btn" href="#guia">Empezar la guía</a>
+        <a class="btn ghost" href="https://github.com/inematds/jarvis-local" target="_blank" rel="noopener">Ver en GitHub</a>
+      </div>
+    </div>
+    <figure><img src="../assets/banner-es.jpg" alt="Banner Jarvis 100% local: humanoide, tarjeta gráfica dorada y galaxia de notas"></figure>
+  </div>
+</header>
+
+<section id="resumo" class="resumo"><div class="wrap">
+  <span class="chip">En resumen</span>
+  <p>Jarvis Local es un kit abierto para crear un asistente personal al que llamas por voz («Jarvis, …») y que funciona por completo en tu computadora. Responde a partir de tus propias notas, que se muestran en una galaxia 3D, habla con una voz clonada y agrega cosas nuevas cuando se lo pides. Está pensado para quienes quieren un asistente sin mensualidad y sin enviar el audio a la nube. Necesitas una máquina con GPU (tarjeta NVIDIA, Mac con chip de Apple o mini PC con memoria unificada) y Claude Code o Codex para construirlo una sola vez con los 8 prompts del kit.</p>
+</div></section>
+
+<section id="video"><div class="wrap">
+  <span class="chip">Video</span>
+  <h2>Míralo en video</h2>
+  <p class="sub">El proyecto explicado en pocos minutos.</p>
+  <div style="position:relative;width:min(360px,100%);aspect-ratio:9/16;margin:0 auto;border-radius:16px;overflow:hidden;border:1px solid var(--line,#272730)"><iframe src="https://www.youtube.com/embed/dCPinV8Djn0" title="Míralo en video" style="position:absolute;inset:0;width:100%;height:100%;border:0" loading="lazy" allowfullscreen></iframe></div>
+</div></section>
+
+
+<section id="oque"><div class="wrap">
+  <span class="chip">Qué es</span>
+  <h2>Tres motores abiertos y ocho prompts</h2>
+  <p class="sub">El kit instala los tres motores gratuitos e incluye los prompts para que Claude Code (o Codex) construya el asistente sobre ellos. Una vez listo, funciona sin esos dos y sin internet.</p>
+  <figure class="wide"><img src="../assets/banner-grade-es.jpg" alt="Las seis piezas: GPU, Ollama, voz clonada, Whisper, galaxia de notas, sin internet" loading="lazy"></figure>
+  <div class="grid g3">
+    <div class="card"><h3>🧠 Cerebro</h3><p><b>Ollama</b> ejecuta un modelo de IA abierto (Qwen, Gemma, gpt-oss) en tu tarjeta gráfica y responde a partir de tus notas.</p></div>
+    <div class="card"><h3>🗣️ Voz</h3><p><b>VoiceStudio</b> clona tu voz a partir de 10–20 segundos de grabación. El motor VoxCPM2 habla portugués.</p></div>
+    <div class="card"><h3>👂 Oídos</h3><p><b>Whisper</b> transcribe lo que dices ahí mismo. Dices «Jarvis» y escucha; dices «detente» y se calla.</p></div>
+  </div>
+</div></section>
+
+<section id="gpu"><div class="wrap">
+  <span class="chip">Lee antes · requisito</span>
+  <h2>Funciona en <span class="amb">GPU</span>. No en una VPS común.</h2>
+  <p class="sub">El cerebro, la voz y los oídos permanecen en memoria al mismo tiempo, y el cerebro es lo que más ocupa. Lo que decide todo es cuánta memoria puede usar el modelo: la VRAM de la tarjeta NVIDIA o la memoria unificada de la Mac y de las mini PC con IA.</p>
+  <figure class="wide"><img src="../assets/secao-gpu.jpg" alt="Tarjeta gráfica y chip de memoria con luz dorada que forma un cerebro" loading="lazy"></figure>
+  <div class="grid g2">
+    <div class="card">
+      <h3 class="ok">✓ Funciona bien</h3>
+      <p>Mac con Apple Silicon (16 GB+, ideal 32 GB)<br>PC con tarjeta NVIDIA (12 GB+ de VRAM, ideal 16–32 GB)<br>Mini PC con memoria unificada (AMD Ryzen AI Max+, NVIDIA DGX Spark)</p>
+    </div>
+    <div class="card">
+      <h3 class="no">✗ No sirve para conversar por voz</h3>
+      <p>VPS / servidor en la nube sin GPU<br>Notebook de 8 GB sin tarjeta gráfica<br>Tarjeta con menos de 12 GB de VRAM (solo conversación sencilla)</p>
+    </div>
+  </div>
+  <div class="warn"><b>¿Por qué no en una VPS?</b> Una VPS común tiene 2–4 vCPU y 4–16 GB de RAM. Un modelo de 9B ni siquiera cabe en 4 GB, y en CPU responde a 2–5 palabras por segundo: demasiado lento para conversar. El instalador revisa tu máquina y <b>se detiene con una explicación</b> si no encuentra una GPU.</div>
+
+  <h3 style="margin:40px 0 6px">Qué cerebro elegir según la memoria</h3>
+  <p class="mut" style="margin:0 0 14px">Tamaño de descarga de cada modelo (4 bits, biblioteca de Ollama, 04/11/2026). El instalador elige automáticamente hasta <code>gpt-oss:120b</code>; el último de la lista se elige con <code>--modelo</code>. Deja ~30% libre: se estima que la voz y los dos Whisper ocupan unos 4–6 GB más en la misma tarjeta.</p>
+  <div class="bars">
+    <div class="bar"><span class="m">16 GB</span><span class="t"><i style="width:9%"></i></span><code>qwen3.5:9b · ~7 GB</code></div>
+    <div class="bar"><span class="m">24 GB</span><span class="t"><i style="width:10%"></i></span><code>gemma4:12b · ~8 GB</code></div>
+    <div class="bar"><span class="m">32 GB</span><span class="t"><i style="width:22%"></i></span><code>qwen3.8:27b · 18 GB</code></div>
+    <div class="bar"><span class="m">64 GB</span><span class="t"><i style="width:25%"></i></span><code>gemma4:31b · ~20 GB</code></div>
+    <div class="bar"><span class="m">96–128 GB</span><span class="t"><i style="width:80%"></i></span><code>gpt-oss:120b · 65 GB</code></div>
+    <div class="bar"><span class="m">128 GB+</span><span class="t"><i style="width:100%"></i></span><code>qwen3.5:122b-a10b · 81 GB · manual</code></div>
+  </div>
+  <p class="mut" style="margin-top:14px;font-size:.9rem">También caben: <code>gpt-oss:20b</code> (14 GB, rápido), <code>gemma4:26b-a4b</code> (16–19 GB), <code>llama4:scout</code> (67 GB). Las etiquetas que terminan en <code>-cloud</code> funcionan en la nube de Ollama: el instalador las rechaza. Tabla completa en <a href="https://github.com/inematds/jarvis-local/blob/main/MODELOS.es.md" target="_blank" rel="noopener">MODELOS.es.md</a>.</p>
+</div></section>
+
+<section id="fluxo"><div class="wrap">
+  <span class="chip">Cómo funciona</span>
+  <h2>Una conversación, del micrófono a la respuesta</h2>
+  <p class="sub">Todo ocurre en tu máquina, en puertos locales. El prompt 07 mide cuánto tarda cada etapa en tu computadora.</p>
+  <figure class="wide"><img src="../assets/secao-voz.jpg" alt="Micrófono con la onda de voz que entra en un humanoide que escucha" loading="lazy"></figure>
+  <div class="flow">
+    <span>🎙️ «Jarvis, …»</span><span class="arr">→</span>
+    <span>👂 Whisper transcribe</span><span class="arr">→</span>
+    <span>🌌 busca en tus notas</span><span class="arr">→</span>
+    <span>🧠 Ollama responde</span><span class="arr">→</span>
+    <span>🗣️ VoiceStudio habla con tu voz</span>
+  </div>
+  <div class="grid g3" style="margin-top:22px">
+    <div class="card"><h3>Ollama · puerto 11434</h3><p>Servidor de modelos abiertos en un formato compatible con OpenAI. El mismo código funciona con otro endpoint si cambias tres campos.</p></div>
+    <div class="card"><h3>VoiceStudio · puerto 3900</h3><p>Motor de voz local. El asistente fija el motor cada vez que inicia para que ninguna licencia cambie sin aviso.</p></div>
+    <div class="card"><h3>Panel · puerto 4700</h3><p>La galaxia 3D de notas en el navegador, vinculada a 127.0.0.1. Desde ahí hablas y ves de qué nota salió la respuesta.</p></div>
+  </div>
+  <h3 style="margin:32px 0 10px">Términos en una línea</h3>
+  <div class="grid g3">
+    <div class="card"><h3>Etiqueta</h3><p>El nombre del modelo en Ollama, con su tamaño: <code>qwen3.5:9b</code>.</p></div>
+    <div class="card"><h3>4 bits</h3><p>Modelo comprimido para que ocupe menos memoria, con poca pérdida de calidad.</p></div>
+    <div class="card"><h3>Endpoint</h3><p>La dirección que recibe las preguntas; aquí, <code>localhost:11434/v1</code>.</p></div>
+    <div class="card"><h3>VRAM / memoria unificada</h3><p>La memoria que usa la GPU. En la Mac y las mini PC con IA, es la misma que usa el sistema.</p></div>
+    <div class="card"><h3>CDN</h3><p>Servidor de archivos en internet. El prompt 08 incorpora las bibliotecas al proyecto.</p></div>
+    <div class="card"><h3>3d-force-graph</h3><p>Biblioteca abierta que dibuja la galaxia 3D de notas en el navegador.</p></div>
+  </div>
+</div></section>
+
+<section id="pre"><div class="wrap">
+  <span class="chip">Requisitos previos</span>
+  <h2>Qué necesitas antes de empezar</h2>
+  <p class="sub">El instalador se encarga de los tres motores y revisa lo demás antes de empezar: si falta algo, muestra el comando para instalarlo.</p>
+  <div class="grid g4">
+    <div class="card"><h3>GPU</h3><p>Tarjeta NVIDIA, Mac con chip de Apple o mini PC con memoria unificada (ver arriba). En NVIDIA, con el driver instalado: <code>nvidia-smi</code> tiene que funcionar.</p></div>
+    <div class="card"><h3>Python 3.10+ y curl</h3><p>En Ubuntu/Debian también necesitas <code>python3-venv</code> y <code>sudo</code> para instalar Ollama.</p><pre>sudo apt install -y python3-venv curl</pre></div>
+    <div class="card"><h3>Chrome</h3><p>U otro navegador con acceso al micrófono.</p></div>
+    <div class="card"><h3>Claude Code o Codex</h3><p>Solo para construirlo con los prompts, una vez.</p></div>
+  </div>
+</div></section>
+
+<section id="guia"><div class="wrap">
+  <span class="chip">Guía de uso · paso a paso</span>
+  <h2>Desde cero hasta «Jarvis, …»</h2>
+  <p class="sub">Una noche para instalar y un fin de semana para construir. Cada paso termina con una prueba.</p>
+
+  <div class="step"><div class="b">1</div><div>
+    <h3>Descarga el kit</h3>
+    <p>Clona el repositorio en la computadora donde funcionará el asistente.</p>
+<pre><span class="k">git clone https://github.com/inematds/jarvis-local.git</span>
+<span class="k">cd jarvis-local</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">2</div><div>
+    <h3>Simula la instalación</h3>
+    <p>Muestra la GPU, la memoria y el modelo que se elegirá, sin instalar nada. Si no hay GPU, se detiene y lo explica.</p>
+<pre><span class="c"># Mac o Linux</span>
+<span class="k">bash instalar/instalar.sh --simular</span>
+<span class="c"># Windows (PowerShell)</span>
+<span class="k">powershell -ExecutionPolicy Bypass -File instalar\instalar.ps1 -Simular</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">3</div><div>
+    <h3>Instala los tres motores</h3>
+    <p>El mismo comando, sin la simulación: Ollama + el modelo adecuado para tu memoria, Whisper (faster-whisper o mlx-whisper) y VoiceStudio. Para elegir el modelo manualmente: <code>--modelo qwen3.8:27b</code>.</p>
+<pre><span class="k">bash instalar/instalar.sh</span>                  <span class="c"># Mac o Linux</span>
+<span class="k">bash instalar/instalar.sh --modelo gemma4:12b</span>  <span class="c"># forzar un modelo</span>
+<span class="k">powershell -ExecutionPolicy Bypass -File instalar\instalar.ps1</span>  <span class="c"># Windows</span></pre>
+    <p>En tarjetas NVIDIA también instala las bibliotecas CUDA de Whisper (cuBLAS y cuDNN). Al final, guarda en <code>~/.jarvis-local/minha-maquina.json</code> la etiqueta del cerebro y la versión de Python que usarán los prompts.</p>
+  </div></div>
+
+  <div class="step"><div class="b">4</div><div>
+    <h3>Crea la voz</h3>
+    <p>En VoiceStudio: <b>Model Catalogue</b> → instala <b>VoxCPM2</b> (habla portugués, licencia Apache-2.0) y selecciónalo. Luego ve a <b>Profiles → New → Clone</b> con 10–20 s de TU voz, sin música ni eco, y ponle el nombre <b>Jarvis</b>. VoiceStudio es una aplicación con interfaz gráfica; anota la versión que funcionó y no la actualices durante el proyecto. En Linux, ábrelo con <code>~/.local/bin/VoiceStudio</code> (es un AppImage: Ubuntu 24.04 necesita <code>sudo apt install -y libfuse2t64</code> y 22.04 <code>libfuse2</code>). En el primer uso descarga su propio motor y tarda.</p>
+  </div></div>
+
+  <div class="step"><div class="b">5</div><div>
+    <h3>Verifica</h3>
+    <p>Comprueba los tres motores y mide la primera respuesta del cerebro en tu máquina.</p>
+<pre><span class="k">python3 instalar/verificar.py</span>
+<span class="c">#  ✓ GPU: …   ✓ modelo descargado   ✓ respondió en X s   ✓ VoiceStudio en funcionamiento   (ejemplo)</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">6</div><div>
+    <h3>Construye con los prompts</h3>
+    <p>Abre Claude Code (o Codex) en una carpeta vacía y pega los prompts <b>01 → 08</b> en orden, uno a la vez, esperando a que cada uno termine y demuestre que funciona. En el prompt 01, completa la etiqueta del cerebro y la versión de Python con los datos de <code>~/.jarvis-local/minha-maquina.json</code>.</p>
+<pre><span class="k">mkdir ~/meu-jarvis && cd ~/meu-jarvis && claude</span>
+<span class="c"># pega el contenido de prompts/01-galaxia-e-cerebro.md</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">7</div><div>
+    <h3>Mide y comprueba</h3>
+    <p>El prompt 07 crea <code>verificar_tudo.py</code>, que mide el tiempo de escuchar · pensar · hablar en tu máquina. El prompt 08 apaga el Wi-Fi y comprueba que la lista de conexiones externas esté vacía.</p>
+<pre><span class="k">python3 verificar_tudo.py</span>
+<span class="c"># escuchar 0,6 s · pensar 1,9 s · hablar 0,8 s · total 3,3 s   (ejemplo)</span>
+<span class="c"># 14 correctas, 0 fallas, 0 avisos</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">8</div><div>
+    <h3>Úsalo</h3>
+    <p>«Jarvis, ¿qué anoté sobre el cliente X?» · «Jarvis, anota que la reunión cambió al jueves» · «Cambia al modelo grande» · «Todo local».</p>
+  </div></div>
+</div></section>
+
+<section id="prompts"><div class="wrap">
+  <span class="chip">Los 8 prompts</span>
+  <h2>Qué construye cada prompt</h2>
+  <p class="sub">Cada prompt es una instrucción completa: qué construir, qué reglas debe respetar y cómo demostrar que funciona. Cambia solo lo que está entre corchetes.</p>
+  <div class="grid g4">
+    <div class="card pcard"><span class="num">01</span><h3>Galaxia y cerebro</h3><p>Galaxia 3D de tus notas + preguntas respondidas por el modelo local.</p><a href="https://github.com/inematds/jarvis-local/blob/main/prompts/es/01-galaxia-e-cerebro.md" target="_blank" rel="noopener">abrir →</a></div>
+    <div class="card pcard"><span class="num">02</span><h3>Voz clonada</h3><p>Cada respuesta se pronuncia con tu voz, en bloques de frases completas.</p><a href="https://github.com/inematds/jarvis-local/blob/main/prompts/es/02-voz-clonada.md" target="_blank" rel="noopener">abrir →</a></div>
+    <div class="card pcard"><span class="num">03</span><h3>Oídos locales</h3><p>«Jarvis» para llamarlo, «detente» para interrumpirlo; el audio no sale de la habitación.</p><a href="https://github.com/inematds/jarvis-local/blob/main/prompts/es/03-ouvidos-locais.md" target="_blank" rel="noopener">abrir →</a></div>
+    <div class="card pcard"><span class="num">04</span><h3>Personalidad concisa</h3><p>Un personaje que cabe en un modelo pequeño, con un prompt corto y rápido.</p><a href="https://github.com/inematds/jarvis-local/blob/main/prompts/es/04-personalidade-enxuta.md" target="_blank" rel="noopener">abrir →</a></div>
+    <div class="card pcard"><span class="num">05</span><h3>Memoria que crece</h3><p>«Anota que…» se convierte en una nota nueva en la galaxia, al instante.</p><a href="https://github.com/inematds/jarvis-local/blob/main/prompts/es/05-memoria-que-cresce.md" target="_blank" rel="noopener">abrir →</a></div>
+    <div class="card pcard"><span class="num">06</span><h3>Cambiar de cerebro</h3><p>Local, grande o en la nube (opcional), por voz y con una etiqueta en pantalla.</p><a href="https://github.com/inematds/jarvis-local/blob/main/prompts/es/06-troca-de-cerebro.md" target="_blank" rel="noopener">abrir →</a></div>
+    <div class="card pcard"><span class="num">07</span><h3>El verificador</h3><p>Lo prueba todo de verdad y mide el tiempo en tu máquina.</p><a href="https://github.com/inematds/jarvis-local/blob/main/prompts/es/07-verificador-de-latencia.md" target="_blank" rel="noopener">abrir →</a></div>
+    <div class="card pcard"><span class="num">08</span><h3>Prueba sin internet</h3><p>Demuestra que nada sale de la máquina, con el Wi-Fi apagado.</p><a href="https://github.com/inematds/jarvis-local/blob/main/prompts/es/08-teste-sem-internet.md" target="_blank" rel="noopener">abrir →</a></div>
+  </div>
+</div></section>
+
+<section id="exemplos"><div class="wrap">
+  <span class="chip">Así se ve</span>
+  <h2>La galaxia que responde y la casa que no filtra datos</h2>
+  <p class="sub">Dos ejemplos que ofrece el kit: la respuesta que vuela hasta la nota de la que salió y el asistente que funciona sin internet.</p>
+  <div class="ex">
+    <figure><img src="../assets/secao-galaxia.jpg" alt="Galaxia 3D de notas con una nota destacada" loading="lazy"><figcaption>Prompts 01 y 05: cada nota es una estrella; la cámara vuela hasta la nota usada en la respuesta y «anota que…» hace nacer una estrella nueva.</figcaption></figure>
+    <figure><img src="../assets/secao-sem-wifi.jpg" alt="Oficina de noche con el router apagado y un humanoide respondiendo" loading="lazy"><figcaption>Prompt 08: router apagado, pregunta hecha y respuesta con tu voz. La lista de conexiones externas debe quedar vacía.</figcaption></figure>
+  </div>
+</div></section>
+
+<section id="roadmap"><div class="wrap">
+  <span class="chip">Cuidados y próximos pasos</span>
+  <h2>Antes de usarlo a diario</h2>
+  <p class="sub">Lo que el kit enseña a hacer bien y qué puedes hacer después.</p>
+  <div class="phase"><div class="tag">Voz</div><div class="d"><strong>Clona solo tu voz</strong><span>O la de alguien que haya dado su autorización. Clonar la voz de una persona famosa para algo público es un problema legal, no técnico.</span></div></div>
+  <div class="phase"><div class="tag">Versiones</div><div class="d"><strong>Fija el modelo y el motor</strong><span>«Latest» es la receta para que un asistente que funcionaba deje de hacerlo un martes. config.json guarda la etiqueta exacta.</span></div></div>
+  <div class="phase"><div class="tag">Nube</div><div class="d"><strong>Opcional, y solo cuando lo pidas</strong><span>«Cambia a la nube» usa el CLI al que ya estás suscrito (Claude Code o Codex) o un endpoint con TU clave. El modo predeterminado es local.</span></div></div>
+  <div class="phase"><div class="tag">Después</div><div class="d"><strong>Compara con un cerebro más grande</strong><span>Si te sobra memoria, instala un modelo de 27B o 120B junto al actual y hazles las mismas 5 preguntas: la diferencia muestra qué obtienes con la memoria extra.</span></div></div>
+</div></section>
+
+<footer>
+  <div class="wrap">
+    <div class="pill">Ollama</div><div class="pill">VoiceStudio · VoxCPM2</div><div class="pill">Whisper</div><div class="pill">3d-force-graph</div>
+    <p style="margin-top:18px">Jarvis Local · kit abierto, licencia MIT ·
+      <a href="https://github.com/inematds/jarvis-local">inematds/jarvis-local</a> ·
+      <a href="https://inema.club">INEMA.CLUB</a></p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var KEY='jarvis-local-theme';
+    var b=document.body, t=document.getElementById('themeToggle');
+    if(localStorage.getItem(KEY)==='light'){ b.classList.add('light'); t.textContent='☀️'; }
+    t.addEventListener('click',function(){
+      var light=b.classList.toggle('light');
+      t.textContent=light?'☀️':'🌙';
+      localStorage.setItem(KEY, light?'light':'dark');
+    });
+  })();
+</script>
+</body>
+</html>
